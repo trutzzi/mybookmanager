@@ -9,6 +9,7 @@ import { useAxiosWithParam } from "../services/useAxiosWithParam";
 import { BookForm } from "../components/bookForm";
 import { ModalDetail } from "../components/modalDetail";
 import { useState } from "react";
+import AddIcon from '@mui/icons-material/Add';
 
 export default function Books() {
   useTitler('Books')
@@ -21,9 +22,11 @@ export default function Books() {
       <Titler title="Books" description="The list of all books" icon={<MenuBookTwoToneIcon sx={{ fontSize: 50, color: COLORS.PRIMARY }} />} />
       {isLoading && <CircularProgress />}
       {!isLoading && !isError && <BooksTable onDelete={deleteBook} data={data} />}
-      <ModalDetail open={createDialog} onClose={() => setCreateDialog(false)} title={"Add book to the list."}>
+      <ModalDetail open={createDialog} onClose={() => setCreateDialog(false)} title={"Add new book"}>
         <BookForm onClose={() => setCreateDialog(false)} />
       </ModalDetail>
-      <Button onClick={() => setCreateDialog(true)}>Test</Button>
+      <Button sx={{ marginTop: 3 }} variant={'contained'} onClick={() => setCreateDialog(true)} startIcon={<AddIcon />}>
+        Add to list
+      </Button>
     </Container>)
 } 

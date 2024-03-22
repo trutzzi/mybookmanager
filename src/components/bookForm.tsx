@@ -76,6 +76,7 @@ export const BookForm: React.FC<BookForm> = ({ data, onClose }) => {
         />
         <TextField multiline
           id="description"
+          label="Description"
           style={{ background: COLORS.CONTRAST, padding: 5 }}
           name="description"
           onChange={formik.handleChange}
