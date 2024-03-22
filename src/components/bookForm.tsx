@@ -5,11 +5,11 @@ import { Books } from '../services/useGetBooks';
 type BookForm = {
   data: Books,
   onAction: Function,
+  onClose: Function
 };
 
-export const BookForm: React.FC<BookForm> = ({ data, onAction }) => {
+export const BookForm: React.FC<BookForm> = ({ data, onAction, onClose }) => {
   const [selected, setSelected] = useState({});
-
   // Pass the useFormik() hook initial form values and a submit function that will
   // be called when the form is submitted
   const formik = useFormik({
@@ -58,7 +58,7 @@ export const BookForm: React.FC<BookForm> = ({ data, onAction }) => {
         value={formik.values.title}
       />
 
-      <button onClick={onAction} type="submit">Submit</button>
+      <button onClick={onClose} type="submit">Submit</button>
     </form>
   );
 };

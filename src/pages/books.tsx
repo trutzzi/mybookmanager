@@ -13,8 +13,6 @@ export default function Books() {
   const [deleteBook] = useAxiosRequest('books', 'DELETE');
   const [newBook] = useAxiosRequest('books', 'PUT');
 
-  console.log(data, isLoading);
-
   const handleCreateBook = (id: number, payload: Omit<Books, 'id'>) => {
     newBook(id, payload)
   }

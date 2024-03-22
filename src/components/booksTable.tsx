@@ -104,9 +104,8 @@ export const BooksTable: React.FC<BookTableProps> = ({ data, onDelete }) => {
           </TableBody>
         </Table>
       </TableContainer >
-      {/* Object.keys(showDetail).length && <BookForm data={showDetail} /> */}
       <ModalDetail title="title">
-        {e => console.log(e)}
+        {close => <BookForm data={showDetail} onClose={close} />}
       </ModalDetail>
       <SelectedDrawer selected={selected} />
     </>

@@ -22,7 +22,7 @@ export const ModalDetail: React.FC<ModalDetail> = ({ title, children, footer = n
           </IconButton>
         </Stack>
         <Stack>
-          {children(fn)}
+          {children(() => setIsOpen(false))}
         </Stack>
         <Stack>
           {footer}
