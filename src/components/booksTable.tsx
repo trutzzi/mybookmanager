@@ -24,19 +24,23 @@ type ActionTypes = typeof ACTIONS[keyof typeof ACTIONS];
 
 type BookTableProps = {
   data: Books[] | undefined,
-  onDelete: any
+  onDelete: (id: number) => Promise<unknown>
 }
 export const BooksTable: React.FC<BookTableProps> = ({ data, onDelete }) => {
   const [selected, setSelected] = useState<number[]>([]);
-  const [showDetail, setShowDetail] = useState({});
+  const [showDetail, setShowDetail] = useState<Books | null>(null);
+
+  const shortDescription = (text: string) => <Typography variant='body1'>{text.substring(0, 60) + '...'}</Typography>
 
   const limitDescription = (text: string) => {
-    return <Tooltip title={text} > <Typography variant='body1'>{text.substring(0, 60) + '...'}</Typography></ Tooltip >
+    return <Tooltip title={text} >{shortDescription(text)}</ Tooltip >
   }
 
   const getSelected = (findId: number) => selected.filter(id => id === findId).length
 
-  const handleMultipleDelete = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _handleMultipleDelete = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     selected.forEach((_book) => {
       /**
        * Create instance for every selected id and trigger custom fetch with '.all' method
@@ -87,7 +91,7 @@ export const BooksTable: React.FC<BookTableProps> = ({ data, onDelete }) => {
                 <TableCell component="th" scope="row">
                   {row.author}
                 </TableCell>
-                <TableCell>{row?.description.length > 80 && limitDescription(row.description)}</TableCell>
+                <TableCell>{row?.description.length > 80 ? limitDescription(row.description) : row?.description}</TableCell>
                 <TableCell>{row.genre}</TableCell>
                 <TableCell>{
                   < ButtonGroup >
@@ -104,10 +108,11 @@ export const BooksTable: React.FC<BookTableProps> = ({ data, onDelete }) => {
           </TableBody>
         </Table>
       </TableContainer >
-      <ModalDetail title="title">
-        {close => <BookForm data={showDetail} onClose={close} />}
+      <ModalDetail open={showDetail !== null} onClose={() => setShowDetail(null)} title={showDetail?.title || "title"}>
+        <BookForm data={showDetail} onClose={() => setShowDetail(null)} />
       </ModalDetail>
       <SelectedDrawer selected={selected} />
+
     </>
   );
 }
