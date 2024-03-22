@@ -11,15 +11,24 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { COLORS } from '../constants/color';
 import SelectedDrawer from './selectedDrawer';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { BookForm } from './bookForm';
+import { ModalDetail } from './modalDetail';
 
 const ACTIONS = {
   EDIT: "edit",
   SELECT: "select"
 }
+
 type ActionTypes = typeof ACTIONS[keyof typeof ACTIONS];
 
-export default function BooksTable({ data }: { data: Books[] | undefined }) {
+type BookTableProps = {
+  data: Books[] | undefined,
+  onDelete: any
+}
+export const BooksTable: React.FC<BookTableProps> = ({ data, onDelete }) => {
   const [selected, setSelected] = useState<number[]>([]);
+  const [showDetail, setShowDetail] = useState({});
 
   const limitDescription = (text: string) => {
     return <Tooltip title={text} > <Typography variant='body1'>{text.substring(0, 60) + '...'}</Typography></ Tooltip >
@@ -27,12 +36,18 @@ export default function BooksTable({ data }: { data: Books[] | undefined }) {
 
   const getSelected = (findId: number) => selected.filter(id => id === findId).length
 
+  const handleMultipleDelete = () => {
+    selected.forEach((_book) => {
+      /**
+       * Create instance for every selected id and trigger custom fetch with '.all' method
+       */
+    })
+  };
+
   const renderActions = (type: ActionTypes, row: Books) => {
-    console.log(row);
-    console.log('s', selected)
     switch (type) {
       case ACTIONS.EDIT:
-        console.log('edit')
+        setShowDetail(row)
         break
       case ACTIONS.SELECT:
         if (!getSelected(row.id)) {
@@ -79,6 +94,9 @@ export default function BooksTable({ data }: { data: Books[] | undefined }) {
                     <IconButton onClick={() => renderActions(ACTIONS.EDIT, row)} >
                       <EditIcon color='primary' fontSize='small' />
                     </IconButton>
+                    <IconButton color='primary' onClick={() => onDelete(row.id)}>
+                      <DeleteForeverIcon />
+                    </IconButton>
                   </ButtonGroup>
                 }</TableCell>
               </TableRow>
@@ -86,6 +104,10 @@ export default function BooksTable({ data }: { data: Books[] | undefined }) {
           </TableBody>
         </Table>
       </TableContainer >
+      {/* Object.keys(showDetail).length && <BookForm data={showDetail} /> */}
+      <ModalDetail title="title">
+        {e => console.log(e)}
+      </ModalDetail>
       <SelectedDrawer selected={selected} />
     </>
   );

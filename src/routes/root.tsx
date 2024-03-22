@@ -5,8 +5,9 @@ export default function Root() {
   return (
     <>
       <Header />
-      <div style={{ marginTop: '25px' }}></div>
-      <Outlet />
+      <div style={{ margin: '25px 15px 25px 15px' }}>
+        <Outlet />
+      </div>
     </>
   )
 }
