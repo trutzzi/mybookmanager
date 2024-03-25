@@ -29,18 +29,19 @@ export default {
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
-## How to run local mocked server:
+## How to run app on local:
 
-Edit the setup file first from 'constants/setup'
+Edit the setup file first from 'src/constants/setup'
 
 <ul>
 <li>PROJECT_NAME : The project title showing in header,logo,document title</li>
 <li>API_URL : This is the url for requesting data to display. You can use mocked server from below</li>
+<li>After you have the bakend running, run 'npm run dev'
 </ul>
 
 Run Mocked server for populating data
 
 <ul>
-<li> run npm or pnpm as you wish in mocked folder to install dependency</li>
-<li> run node index.js for running server on local, by default the server is running on port:3000</li>
+<li> run npm or pnpm as you wish in mocked folder './mocked' to install dependency</li>
+<li> run node 'index.js' for running server on local, by default the server is running on port:3000</li>
 </ul>
