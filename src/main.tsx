@@ -7,6 +7,7 @@ import { PAGES } from './routes/pages';
 import About from './pages/about';
 import Books from './pages/books';
 import UsingColorBrands from './theme';
+import { SnackbarProvider } from 'notistack';
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <UsingColorBrands>
-      <RouterProvider router={router} />
+      <SnackbarProvider maxSnack={3}>
+        <RouterProvider router={router} />
+      </SnackbarProvider>
     </UsingColorBrands>
   </React.StrictMode>
 );

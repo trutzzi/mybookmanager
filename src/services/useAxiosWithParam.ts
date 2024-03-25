@@ -7,12 +7,15 @@ export const useAxiosWithParam = (
   method: "GET" | "POST" | "PUT" | "DELETE"
 ) => {
   const [data, setData] = useState(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<null | string>(null);
   const [loaded, setLoaded] = useState(false);
 
   const { mutate } = useSWRConfig();
 
-  const triggerEvent = async (id = null, payload = null) => {
+  const triggerEvent: (
+    id: number | undefined,
+    payload: object | undefined
+  ) => void = async (id = undefined, payload = undefined) => {
     /**
      * Used for PUT&DELETE
      */
@@ -30,11 +33,11 @@ export const useAxiosWithParam = (
         }
       });
     } catch {
-      setError("Fetch failed");
+      setError("Failed to fetch");
+      throw new Error("Failed API NETWORK");
     } finally {
       setLoaded(true);
     }
   };
-
-  return [triggerEvent, data, error, loaded];
+  return { triggerEvent, data, error, loaded };
 };

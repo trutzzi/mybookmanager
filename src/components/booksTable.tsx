@@ -24,7 +24,8 @@ type ActionTypes = typeof ACTIONS[keyof typeof ACTIONS];
 
 type BookTableProps = {
   data: Books[] | undefined,
-  onDelete: (id: number) => Promise<unknown>
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  onDelete: Function
 }
 export const BooksTable: React.FC<BookTableProps> = ({ data, onDelete }) => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -63,6 +64,9 @@ export const BooksTable: React.FC<BookTableProps> = ({ data, onDelete }) => {
         break
     }
   }
+  if (!data?.length) {
+    return
+  }
   return (
     <>
       <TableContainer component={Paper}>
@@ -78,14 +82,13 @@ export const BooksTable: React.FC<BookTableProps> = ({ data, onDelete }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data!.map((row) => (
+            {data.map((row) => (
               <TableRow
-                onClick={() => console.log(row.id)}
                 key={row.author}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 }, background: getSelected(row.id) ? COLORS.CONTRAST : '' }}
               >
                 <TableCell><IconButton onClick={() => renderActions(ACTIONS.SELECT, row)} >
-                  <Checkbox color='primary' checked={Boolean(getSelected(row.id))} />
+                  <Checkbox color='primary' checked={Boolean(getSelected(row?.id))} />
                 </IconButton></TableCell>
                 <TableCell>{row.title}</TableCell>
                 <TableCell component="th" scope="row">
@@ -108,7 +111,7 @@ export const BooksTable: React.FC<BookTableProps> = ({ data, onDelete }) => {
           </TableBody>
         </Table>
       </TableContainer >
-      <ModalDetail open={showDetail !== null} onClose={() => setShowDetail(null)} title={showDetail?.title || "title"}>
+      <ModalDetail open={showDetail !== null} onClose={() => setShowDetail(null)} title={showDetail?.title || "Title"}>
         <BookForm data={showDetail} onClose={() => setShowDetail(null)} />
       </ModalDetail>
       <SelectedDrawer selected={selected} />

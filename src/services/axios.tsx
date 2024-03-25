@@ -6,9 +6,6 @@ const instance = axios.create({
   timeout: 1000,
 });
 
-export const fetcher = (url: string) => instance.request({ url }).then(res => res.data).catch(_e => {
-  console.log(e);
-  /**
-   * Feature:Log the error
-   */
-})
+export const fetcher = (url: string) => instance.request({ url }).then(res => res.data).catch(e => {
+  throw new Error(e);
+})  

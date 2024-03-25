@@ -7,7 +7,7 @@ type ModalDetail = {
 };
 
 const myStyle = {
-  modal: { display: 'flex', justifyContent: 'space-between', flexDirection: 'column', background: COLORS.CONTRAST, padding: '15px', height: '80%', width: '80%', left: '80%', top: '80%', position: 'fixed', transform: 'translate(-80%,-80%)' }
+  modal: { display: 'flex', justifyContent: 'space-between', flexDirection: 'column', background: COLORS.CONTRAST, padding: '15px', height: '100vh' }
 }
 export const ModalDetail: React.FC<ModalDetail> = ({ title, children, footer = null, open, onClose }) => {
 

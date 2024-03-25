@@ -13,8 +13,15 @@ import { PAGES } from '../routes/pages';
 import { NavLink } from 'react-router-dom';
 import { PROJECT_NAME } from '../constants/setup';
 import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook';
+import { COLORS } from '../constants/color';
 
-
+const myStyle = {
+  navlink: {
+    color: COLORS.BLACK,
+    fontSize: '16px',
+    textDecoration: 'none'
+  },
+}
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
@@ -32,6 +39,7 @@ function Header() {
     for (const Page in PAGES) {
       PagesEl.push(<MenuItem key={PAGES[Page].link} onClick={handleCloseNavMenu}>
         <NavLink
+          style={myStyle.navlink}
           to={PAGES[Page].link}
           key={PAGES[Page].link}
           className={({ isActive }) =>
@@ -51,6 +59,7 @@ function Header() {
 
     for (const Page in PAGES) {
       PagesEl.push(<NavLink
+        style={myStyle.navlink}
         to={PAGES[Page].link}
         key={PAGES[Page].link}
         className={({ isActive }) =>

@@ -7,7 +7,7 @@ import { COLORS } from '../constants/color';
 import { sortedObject } from '../utils/sortObject';
 
 type BookForm = {
-  data?: Books,
+  data?: Books | null,
   onClose: () => void;
 };
 
@@ -15,19 +15,18 @@ type BookForm = {
 export const BookForm: React.FC<BookForm> = ({ data, onClose }) => {
   // Pass the useFormik() hook initial form values and a submit function that will
   // be called when the form is submitted
-  const [editBook, errorUpdate] = useAxiosWithParam('books', 'PUT');
-  const [newBook] = useAxiosWithParam('books', 'POST');
+  const { triggerEvent: editBook } = useAxiosWithParam('books', 'PUT');
+  const { triggerEvent: newBook } = useAxiosWithParam('books', 'POST');
 
   const isEdited = () => {
     if (data && !Object.keys(formik.errors).length) {
-      const dataWithoutId = { ...data };
+      const dataWithoutId: Partial<Books> = { ...data };
       delete dataWithoutId.id;
       return JSON.stringify(sortedObject(formik.values)) !== JSON.stringify(sortedObject(dataWithoutId))
     } else if (!data && !Object.keys(formik.errors).length) {
       return true
     }
-  };
-
+  }
   const formik = useFormik({
     initialValues: {
       author: data?.author || '',
@@ -41,15 +40,11 @@ export const BookForm: React.FC<BookForm> = ({ data, onClose }) => {
        * Based on data should create or update
        */
       if (data) {
-        editBook(data.id, values)
-        if (!errorUpdate) {
-          onClose()
-        }
+        editBook(data?.id, values)
+        onClose()
       } else {
-        newBook(null, values)
-        if (!errorUpdate) {
-          onClose()
-        }
+        newBook(undefined, values)
+        onClose()
       }
     },
   });
